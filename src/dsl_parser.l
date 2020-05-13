@@ -7,7 +7,7 @@ YYSTYPE yylval;
 
 %%
 
-[a-zA-Z]+ {
+[_a-zA-Z]+ {
     yylval.value = DslValueNewVar(yytext);
     return VAR;
     }
@@ -28,6 +28,6 @@ YYSTYPE yylval;
 "}" {return RC;}
 
 "," {return SEP;}
-[ \t\s\n]* {return SPACE;}
+[ \t\s\n]+ {}
 
 %%

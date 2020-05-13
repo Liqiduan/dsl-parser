@@ -27,6 +27,8 @@ add_executable(dsl-parser-test test/dsl_test.c)
 target_link_libraries(dsl-parser-test 
         PRIVATE dsl-parser cmocka)
 
+add_executable(dsl src/dsl_parser.c)
+target_link_libraries(dsl PRIVATE dsl-parser)
 
 enable_testing()
 add_test(dsl-parser-test dsl-parser-test)

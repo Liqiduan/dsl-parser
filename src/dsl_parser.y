@@ -19,39 +19,34 @@ void yyerror(char* s)
 %token <value> VAR NUMBER STR
 %token LP RP LC RC
 %token SEP
-%token SPACE
 
-%type <value> values value name arg body
+%type <value> values value name arg body 
 %type <element> element
 
 %%
 
-start:
-     |start element {result = $2;}
+start:%empty
+     |element {result = $1;}
      ;
 
 element:name arg body {$$ = DslElementNew($1, $2, $3);}
+       |name arg {$$ = DslElementNew($1, $2, NULL);}
        ;
 
 name:VAR
     ;
 
-arg:|LP RP {$$ = NULL;}
-    |LP SPACE RP {$$ = NULL;}
-    |LP values RP {$$ = $2;}
+arg:LP RP {$$ = NULL;}
+   |LP values RP {$$ = $2;}
    ;
 
 body:LC RC {$$ = NULL;}
-    |LC SPACE RC {$$ = NULL;}
     |LC values RC {$$ = $2;}
     ;
 
 values:value
-      |value sep values {$1->next = $3; $$ = $1;}
+      |value SEP values {$1->next = $3; $$ = $1;}
       ;
-
-sep:SPACE SEP SPACE
-   ;
 
 value:NUMBER
      |VAR
@@ -78,5 +73,10 @@ int DslParse(char *str, DslElement **dsl)
 
     result = NULL;
     return ret;
+}
+
+int DslParseInput()
+{
+    return yyparse();
 }
 

@@ -28,6 +28,7 @@ typedef struct DslElement {
 } DslElement;
 
 int DslParse(char* str, DslElement** dsl);
+int DslParseInput();
 
 DslValue* DslValueNewNumber(int number);
 DslValue* DslValueNewStr(char* str);
